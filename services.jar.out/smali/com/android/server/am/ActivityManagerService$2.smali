@@ -186,8 +186,7 @@
 
     iget-object v3, v0, Lcom/android/server/am/ActivityManagerService$2;->this$0:Lcom/android/server/am/ActivityManagerService;
 
-    #calls: Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
-    invoke-static {v3}, Lcom/android/server/am/ActivityManagerService;->access$100(Lcom/android/server/am/ActivityManagerService;)Landroid/content/Context;
+    invoke-virtual {v3}, Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
 
     move-result-object v3
 
@@ -398,8 +397,13 @@
     move-result v3
 
     if-eqz v3, :cond_5
+    
+    invoke-static {}, Landroid/app/ActivityManager;->isUserAMonkey()Z
 
-    .line 940
+    move-result v3
+
+    if-nez v3, :cond_5
+    
     new-instance v21, Lcom/android/server/am/AppNotRespondingDialog;
 
     move-object/from16 v0, p0
@@ -410,8 +414,7 @@
 
     iget-object v3, v0, Lcom/android/server/am/ActivityManagerService$2;->this$0:Lcom/android/server/am/ActivityManagerService;
 
-    #calls: Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
-    invoke-static {v3}, Lcom/android/server/am/ActivityManagerService;->access$100(Lcom/android/server/am/ActivityManagerService;)Landroid/content/Context;
+    invoke-virtual {v3}, Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
 
     move-result-object v5
 
@@ -623,8 +626,7 @@
 
     iget-object v3, v0, Lcom/android/server/am/ActivityManagerService$2;->this$0:Lcom/android/server/am/ActivityManagerService;
 
-    #calls: Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
-    invoke-static {v3}, Lcom/android/server/am/ActivityManagerService;->access$100(Lcom/android/server/am/ActivityManagerService;)Landroid/content/Context;
+    invoke-virtual {v3}, Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
 
     move-result-object v3
 
@@ -687,8 +689,7 @@
 
     iget-object v3, v0, Lcom/android/server/am/ActivityManagerService$2;->this$0:Lcom/android/server/am/ActivityManagerService;
 
-    #calls: Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
-    invoke-static {v3}, Lcom/android/server/am/ActivityManagerService;->access$100(Lcom/android/server/am/ActivityManagerService;)Landroid/content/Context;
+    invoke-virtual {v3}, Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
 
     move-result-object v3
 
@@ -823,8 +824,7 @@
 
     iget-object v5, v0, Lcom/android/server/am/ActivityManagerService$2;->this$0:Lcom/android/server/am/ActivityManagerService;
 
-    #calls: Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
-    invoke-static {v5}, Lcom/android/server/am/ActivityManagerService;->access$100(Lcom/android/server/am/ActivityManagerService;)Landroid/content/Context;
+    invoke-virtual {v3}, Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
 
     move-result-object v5
 
@@ -1474,8 +1474,7 @@
 
     iget-object v3, v0, Lcom/android/server/am/ActivityManagerService$2;->this$0:Lcom/android/server/am/ActivityManagerService;
 
-    #calls: Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
-    invoke-static {v3}, Lcom/android/server/am/ActivityManagerService;->access$100(Lcom/android/server/am/ActivityManagerService;)Landroid/content/Context;
+    invoke-virtual {v3}, Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
 
     move-result-object v3
 
@@ -1957,8 +1956,7 @@
 
     iget-object v3, v0, Lcom/android/server/am/ActivityManagerService$2;->this$0:Lcom/android/server/am/ActivityManagerService;
 
-    #calls: Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
-    invoke-static {v3}, Lcom/android/server/am/ActivityManagerService;->access$100(Lcom/android/server/am/ActivityManagerService;)Landroid/content/Context;
+    invoke-virtual {v3}, Lcom/android/server/am/ActivityManagerService;->getUiContext()Landroid/content/Context;
 
     move-result-object v3
 

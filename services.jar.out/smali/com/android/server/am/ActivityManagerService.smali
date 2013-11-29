@@ -717,6 +717,12 @@
 
 .field mSystemReady:Z
 
+.field private mThemeChangeReceiver:Landroid/content/BroadcastReceiver;
+    .annotation build Landroid/annotation/LewaHook;
+        value = .enum Landroid/annotation/LewaHook$LewaHookType;->NEW_FIELD:Landroid/annotation/LewaHook$LewaHookType;
+    .end annotation
+.end field
+
 .field mTopAction:Ljava/lang/String;
 
 .field mTopComponent:Landroid/content/ComponentName;
@@ -724,6 +730,10 @@
 .field mTopData:Ljava/lang/String;
 
 .field mUiContext:Landroid/content/Context;
+    .annotation build Landroid/annotation/LewaHook;
+        value = .enum Landroid/annotation/LewaHook$LewaHookType;->NEW_FIELD:Landroid/annotation/LewaHook$LewaHookType;
+    .end annotation
+.end field
 
 .field mUidAlert:Landroid/app/AlertDialog;
 
@@ -71909,42 +71919,8 @@
 
     .line 13544
     :cond_2
-    move-object/from16 v0, p1
+    invoke-static/range {p0 .. p1}, Lcom/android/server/am/ActivityManagerService$Injector;->setThemeResource(Lcom/android/server/am/ActivityManagerService;Landroid/content/res/Configuration;)V
 
-    iget-object v2, v0, Landroid/content/res/Configuration;->customTheme:Landroid/content/res/CustomTheme;
-
-    if-eqz v2, :cond_3
-
-    .line 13545
-    move-object/from16 v0, p1
-
-    iget-object v3, v0, Landroid/content/res/Configuration;->customTheme:Landroid/content/res/CustomTheme;
-
-    move-object/from16 v0, p1
-
-    iget-object v2, v0, Landroid/content/res/Configuration;->customTheme:Landroid/content/res/CustomTheme;
-
-    move-object/from16 v0, p0
-
-    iget-object v4, v0, Lcom/android/server/am/ActivityManagerService;->mConfiguration:Landroid/content/res/Configuration;
-
-    iget-object v4, v4, Landroid/content/res/Configuration;->customTheme:Landroid/content/res/CustomTheme;
-
-    invoke-virtual {v2, v4}, Landroid/content/res/CustomTheme;->equals(Ljava/lang/Object;)Z
-
-    move-result v2
-
-    if-nez v2, :cond_9
-
-    const/4 v2, 0x1
-
-    :goto_2
-    move-object/from16 v0, p0
-
-    invoke-direct {v0, v3, v2}, Lcom/android/server/am/ActivityManagerService;->saveThemeResourceLocked(Landroid/content/res/CustomTheme;Z)V
-
-    .line 13549
-    :cond_3
     move-object/from16 v0, p0
 
     iget v2, v0, Lcom/android/server/am/ActivityManagerService;->mConfigurationSeq:I

@@ -3946,14 +3946,14 @@
     .line 3029
     .end local v3           #steps:I
     :cond_4
-    iput p1, p0, Lcom/android/server/PowerManagerService;->mLastLcdValue:I
-
-    .line 3031
-    :cond_5
     invoke-virtual {p0, v0}, Lcom/android/server/PowerManagerService;->adjustButtonValue(I)I
 
     move-result v0
 
+    iput p1, p0, Lcom/android/server/PowerManagerService;->mLastLcdValue:I
+
+    .line 3031
+    :cond_5
     iget v4, p0, Lcom/android/server/PowerManagerService;->mButtonBrightnessOverride:I
 
     if-gez v4, :cond_6

@@ -7,6 +7,7 @@
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
         Lcom/android/server/BatteryService$SettingsObserver;,
+        Lcom/android/server/BatteryService$BatteryLowValObserver;,
         Lcom/android/server/BatteryService$Led;
     }
 .end annotation
@@ -273,6 +274,8 @@
     move-result v1
 
     iput v1, p0, Lcom/android/server/BatteryService;->mLowBatteryWarningLevel:I
+
+    invoke-direct {p0}, Lcom/android/server/BatteryService;->resetBatteryWarningLevel()V
 
     .line 163
     iget-object v1, p0, Lcom/android/server/BatteryService;->mContext:Landroid/content/Context;
@@ -2379,6 +2382,38 @@
     invoke-static {v1, v2}, Landroid/app/ActivityManagerNative;->broadcastStickyIntent(Landroid/content/Intent;Ljava/lang/String;)V
 
     .line 462
+    return-void
+.end method
+
+.method private setLowBatteryCloseWarningLevel()V
+    .locals 3
+    .annotation build Landroid/annotation/LewaHook;
+        value = .enum Landroid/annotation/LewaHook$LewaHookType;->NEW_METHOD:Landroid/annotation/LewaHook$LewaHookType;
+    .end annotation
+
+    .prologue
+    iget-object v0, p0, Lcom/android/server/BatteryService;->mContext:Landroid/content/Context;
+
+    invoke-virtual {v0}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v0
+
+    const-string v1, "powerlowwarningval"
+
+    iget v2, p0, Lcom/android/server/BatteryService;->mLowBatteryWarningLevel:I
+
+    invoke-static {v0, v1, v2}, Landroid/provider/Settings$System;->getInt(Landroid/content/ContentResolver;Ljava/lang/String;I)I
+
+    move-result v0
+
+    iput v0, p0, Lcom/android/server/BatteryService;->mLowBatteryWarningLevel:I
+
+    iget v0, p0, Lcom/android/server/BatteryService;->mLowBatteryWarningLevel:I
+
+    add-int/lit8 v0, v0, 0x5
+
+    iput v0, p0, Lcom/android/server/BatteryService;->mLowBatteryCloseWarningLevel:I
+
     return-void
 .end method
 

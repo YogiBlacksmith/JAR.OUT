@@ -21487,8 +21487,205 @@
     goto :goto_3
 .end method
 
+.method static final sendPackageBroadcast(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/os/Bundle;Ljava/lang/String;Landroid/content/IIntentReceiver;I)V
+    .locals 18
+    .parameter "action"
+    .parameter "pkg"
+    .parameter "intentCategory"
+    .parameter "extras"
+    .parameter "targetPkg"
+    .parameter "finishedReceiver"
+    .parameter "userId"
+    .annotation build Landroid/annotation/LewaHook;
+        value = .enum Landroid/annotation/LewaHook$LewaHookType;->NEW_METHOD:Landroid/annotation/LewaHook$LewaHookType;
+    .end annotation
+
+    .prologue
+    invoke-static {}, Landroid/app/ActivityManagerNative;->getDefault()Landroid/app/IActivityManager;
+
+    move-result-object v1
+
+    .local v1, am:Landroid/app/IActivityManager;
+    if-eqz v1, :cond_5
+
+    const/4 v2, -0x1
+
+    move/from16 v0, p6
+
+    if-ne v0, v2, :cond_4
+
+    :try_start_0
+    sget-object v2, Lcom/android/server/pm/PackageManagerService;->sUserManager:Lcom/android/server/pm/UserManager;
+
+    invoke-virtual {v2}, Lcom/android/server/pm/UserManager;->getUserIds()[I
+
+    move-result-object v17
+
+    .local v17, userIds:[I
+    :goto_0
+    move-object/from16 v13, v17
+
+    .local v13, arr$:[I
+    array-length v15, v13
+
+    .local v15, len$:I
+    const/4 v14, 0x0
+
+    .local v14, i$:I
+    :goto_1
+    if-ge v14, v15, :cond_5
+
+    aget v12, v13, v14
+
+    .local v12, id:I
+    new-instance v3, Landroid/content/Intent;
+
+    if-eqz p1, :cond_6
+
+    const-string v2, "package"
+
+    const/4 v4, 0x0
+
+    move-object/from16 v0, p1
+
+    invoke-static {v2, v0, v4}, Landroid/net/Uri;->fromParts(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Landroid/net/Uri;
+
+    move-result-object v2
+
+    :goto_2
+    move-object/from16 v0, p0
+
+    invoke-direct {v3, v0, v2}, Landroid/content/Intent;-><init>(Ljava/lang/String;Landroid/net/Uri;)V
+
+    .local v3, intent:Landroid/content/Intent;
+    if-eqz p3, :cond_0
+
+    move-object/from16 v0, p3
+
+    invoke-virtual {v3, v0}, Landroid/content/Intent;->putExtras(Landroid/os/Bundle;)Landroid/content/Intent;
+
+    :cond_0
+    if-eqz p4, :cond_1
+
+    move-object/from16 v0, p4
+
+    invoke-virtual {v3, v0}, Landroid/content/Intent;->setPackage(Ljava/lang/String;)Landroid/content/Intent;
+
+    :cond_1
+    const-string v2, "android.intent.extra.UID"
+
+    const/4 v4, -0x1
+
+    invoke-virtual {v3, v2, v4}, Landroid/content/Intent;->getIntExtra(Ljava/lang/String;I)I
+
+    move-result v16
+
+    .local v16, uid:I
+    if-lez v16, :cond_2
+
+    if-lez v12, :cond_2
+
+    invoke-static/range {v16 .. v16}, Landroid/os/UserId;->getAppId(I)I
+
+    move-result v2
+
+    invoke-static {v12, v2}, Landroid/os/UserId;->getUid(II)I
+
+    move-result v16
+
+    const-string v2, "android.intent.extra.UID"
+
+    move/from16 v0, v16
+
+    invoke-virtual {v3, v2, v0}, Landroid/content/Intent;->putExtra(Ljava/lang/String;I)Landroid/content/Intent;
+
+    :cond_2
+    const/high16 v2, 0x800
+
+    invoke-virtual {v3, v2}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
+
+    if-eqz p2, :cond_3
+
+    move-object/from16 v0, p2
+
+    invoke-virtual {v3, v0}, Landroid/content/Intent;->addCategory(Ljava/lang/String;)Landroid/content/Intent;
+
+    :cond_3
+    const/4 v2, 0x0
+
+    const/4 v4, 0x0
+
+    const/4 v6, 0x0
+
+    const/4 v7, 0x0
+
+    const/4 v8, 0x0
+
+    const/4 v9, 0x0
+
+    if-eqz p5, :cond_7
+
+    const/4 v10, 0x1
+
+    :goto_3
+    const/4 v11, 0x0
+
+    move-object/from16 v5, p5
+
+    invoke-interface/range {v1 .. v12}, Landroid/app/IActivityManager;->broadcastIntent(Landroid/app/IApplicationThread;Landroid/content/Intent;Ljava/lang/String;Landroid/content/IIntentReceiver;ILjava/lang/String;Landroid/os/Bundle;Ljava/lang/String;ZZI)I
+
+    add-int/lit8 v14, v14, 0x1
+
+    goto :goto_1
+
+    .end local v3           #intent:Landroid/content/Intent;
+    .end local v12           #id:I
+    .end local v13           #arr$:[I
+    .end local v14           #i$:I
+    .end local v15           #len$:I
+    .end local v16           #uid:I
+    .end local v17           #userIds:[I
+    :cond_4
+    const/4 v2, 0x1
+
+    new-array v0, v2, [I
+
+    move-object/from16 v17, v0
+
+    const/4 v2, 0x0
+
+    aput p6, v17, v2
+    :try_end_0
+    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+
+    goto :goto_0
+
+    :catch_0
+    move-exception v2
+
+    :cond_5
+    return-void
+
+    .restart local v12       #id:I
+    .restart local v13       #arr$:[I
+    .restart local v14       #i$:I
+    .restart local v15       #len$:I
+    .restart local v17       #userIds:[I
+    :cond_6
+    const/4 v2, 0x0
+
+    goto :goto_2
+
+    .restart local v3       #intent:Landroid/content/Intent;
+    .restart local v16       #uid:I
+    :cond_7
+    const/4 v10, 0x0
+
+    goto :goto_3
+.end method
+
 .method private sendPackageChangedBroadcast(Ljava/lang/String;ZLjava/util/ArrayList;I)V
-    .locals 8
+    .locals 7
     .parameter "packageName"
     .parameter "killFlag"
     .parameter
@@ -21507,17 +21704,15 @@
 
     .prologue
     .local p3, componentNames:Ljava/util/ArrayList;,"Ljava/util/ArrayList<Ljava/lang/String;>;"
-    const/4 v2, 0x0
+    const/4 v3, 0x0
 
-    .line 8511
-    new-instance v3, Landroid/os/Bundle;
+    new-instance v2, Landroid/os/Bundle;
 
     const/4 v0, 0x4
 
-    invoke-direct {v3, v0}, Landroid/os/Bundle;-><init>(I)V
+    invoke-direct {v2, v0}, Landroid/os/Bundle;-><init>(I)V
 
-    .line 8512
-    .local v3, extras:Landroid/os/Bundle;
+    .local v2, extras:Landroid/os/Bundle;
     const-string v1, "android.intent.extra.changed_component_name"
 
     const/4 v0, 0x0
@@ -21528,55 +21723,46 @@
 
     check-cast v0, Ljava/lang/String;
 
-    invoke-virtual {v3, v1, v0}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-virtual {v2, v1, v0}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 8513
     invoke-virtual {p3}, Ljava/util/ArrayList;->size()I
 
     move-result v0
 
-    new-array v7, v0, [Ljava/lang/String;
+    new-array v6, v0, [Ljava/lang/String;
 
-    .line 8514
-    .local v7, nameList:[Ljava/lang/String;
-    invoke-virtual {p3, v7}, Ljava/util/ArrayList;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
+    .local v6, nameList:[Ljava/lang/String;
+    invoke-virtual {p3, v6}, Ljava/util/ArrayList;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
 
-    .line 8515
     const-string v0, "android.intent.extra.changed_component_name_list"
 
-    invoke-virtual {v3, v0, v7}, Landroid/os/Bundle;->putStringArray(Ljava/lang/String;[Ljava/lang/String;)V
+    invoke-virtual {v2, v0, v6}, Landroid/os/Bundle;->putStringArray(Ljava/lang/String;[Ljava/lang/String;)V
 
-    .line 8516
     const-string v0, "android.intent.extra.DONT_KILL_APP"
 
-    invoke-virtual {v3, v0, p2}, Landroid/os/Bundle;->putBoolean(Ljava/lang/String;Z)V
+    invoke-virtual {v2, v0, p2}, Landroid/os/Bundle;->putBoolean(Ljava/lang/String;Z)V
 
-    .line 8517
     const-string v0, "android.intent.extra.UID"
 
-    invoke-virtual {v3, v0, p4}, Landroid/os/Bundle;->putInt(Ljava/lang/String;I)V
+    invoke-virtual {v2, v0, p4}, Landroid/os/Bundle;->putInt(Ljava/lang/String;I)V
 
-    .line 8518
     const-string v0, "android.intent.action.PACKAGE_CHANGED"
 
     invoke-static {p4}, Landroid/os/UserId;->getUserId(I)I
 
-    move-result v6
+    move-result v5
 
     move-object v1, p1
 
-    move-object v4, v2
+    move-object v4, v3
 
-    move-object v5, v2
+    invoke-static/range {v0 .. v5}, Lcom/android/server/pm/PackageManagerService;->sendPackageBroadcast(Ljava/lang/String;Ljava/lang/String;Landroid/os/Bundle;Ljava/lang/String;Landroid/content/IIntentReceiver;I)V
 
-    invoke-static/range {v0 .. v6}, Lcom/android/server/pm/PackageManagerService;->sendPackageBroadcast(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/os/Bundle;Ljava/lang/String;Landroid/content/IIntentReceiver;I)V
-
-    .line 8520
     return-void
 .end method
 
 .method private sendResourcesChangedBroadcast(ZLjava/util/ArrayList;[ILandroid/content/IIntentReceiver;)V
-    .locals 8
+    .locals 7
     .parameter "mediaStatus"
     .parameter
     .parameter "uidArr"
@@ -21597,69 +21783,57 @@
     .local p2, pkgList:Ljava/util/ArrayList;,"Ljava/util/ArrayList<Ljava/lang/String;>;"
     const/4 v1, 0x0
 
-    .line 9134
     invoke-virtual {p2}, Ljava/util/ArrayList;->size()I
 
-    move-result v7
+    move-result v6
 
-    .line 9135
-    .local v7, size:I
-    if-lez v7, :cond_1
+    .local v6, size:I
+    if-lez v6, :cond_1
 
-    .line 9137
-    new-instance v3, Landroid/os/Bundle;
+    new-instance v2, Landroid/os/Bundle;
 
-    invoke-direct {v3}, Landroid/os/Bundle;-><init>()V
+    invoke-direct {v2}, Landroid/os/Bundle;-><init>()V
 
-    .line 9138
-    .local v3, extras:Landroid/os/Bundle;
+    .local v2, extras:Landroid/os/Bundle;
     const-string v4, "android.intent.extra.changed_package_list"
 
-    new-array v2, v7, [Ljava/lang/String;
+    new-array v3, v6, [Ljava/lang/String;
 
-    invoke-virtual {p2, v2}, Ljava/util/ArrayList;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
+    invoke-virtual {p2, v3}, Ljava/util/ArrayList;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
 
-    move-result-object v2
+    move-result-object v3
 
-    check-cast v2, [Ljava/lang/String;
+    check-cast v3, [Ljava/lang/String;
 
-    invoke-virtual {v3, v4, v2}, Landroid/os/Bundle;->putStringArray(Ljava/lang/String;[Ljava/lang/String;)V
+    invoke-virtual {v2, v4, v3}, Landroid/os/Bundle;->putStringArray(Ljava/lang/String;[Ljava/lang/String;)V
 
-    .line 9140
     if-eqz p3, :cond_0
 
-    .line 9141
-    const-string v2, "android.intent.extra.changed_uid_list"
+    const-string v3, "android.intent.extra.changed_uid_list"
 
-    invoke-virtual {v3, v2, p3}, Landroid/os/Bundle;->putIntArray(Ljava/lang/String;[I)V
+    invoke-virtual {v2, v3, p3}, Landroid/os/Bundle;->putIntArray(Ljava/lang/String;[I)V
 
-    .line 9143
     :cond_0
     if-eqz p1, :cond_2
 
     const-string v0, "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE"
 
-    .line 9145
     .local v0, action:Ljava/lang/String;
     :goto_0
-    const/4 v6, -0x1
+    const/4 v5, -0x1
 
-    move-object v2, v1
+    move-object v3, v1
 
-    move-object v4, v1
+    move-object v4, p4
 
-    move-object v5, p4
+    invoke-static/range {v0 .. v5}, Lcom/android/server/pm/PackageManagerService;->sendPackageBroadcast(Ljava/lang/String;Ljava/lang/String;Landroid/os/Bundle;Ljava/lang/String;Landroid/content/IIntentReceiver;I)V
 
-    invoke-static/range {v0 .. v6}, Lcom/android/server/pm/PackageManagerService;->sendPackageBroadcast(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/os/Bundle;Ljava/lang/String;Landroid/content/IIntentReceiver;I)V
-
-    .line 9147
     .end local v0           #action:Ljava/lang/String;
-    .end local v3           #extras:Landroid/os/Bundle;
+    .end local v2           #extras:Landroid/os/Bundle;
     :cond_1
     return-void
 
-    .line 9143
-    .restart local v3       #extras:Landroid/os/Bundle;
+    .restart local v2       #extras:Landroid/os/Bundle;
     :cond_2
     const-string v0, "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE"
 
@@ -24533,6 +24707,9 @@
     .locals 4
     .parameter "pkgSetting"
     .parameter "pkg"
+    .annotation build Landroid/annotation/LewaHook;
+        value = .enum Landroid/annotation/LewaHook$LewaHookType;->CHANGE_CODE:Landroid/annotation/LewaHook$LewaHookType;
+    .end annotation
 
     .prologue
     const/4 v0, 0x0
@@ -24610,6 +24787,12 @@
     iget-object v1, v1, Lcom/android/server/pm/PackageSignatures;->mSignatures:[Landroid/content/pm/Signature;
 
     if-eqz v1, :cond_1
+
+    invoke-static {p2}, Lcom/android/server/pm/PackageManagerService$Injector;->skipVerifySignatures(Landroid/content/pm/PackageParser$Package;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_1
 
     .line 3319
     iget-object v1, p1, Lcom/android/server/pm/PackageSetting;->sharedUser:Lcom/android/server/pm/SharedUserSetting;
@@ -30360,6 +30543,8 @@
     monitor-enter v10
 
     :try_start_0
+    invoke-static {p0, p1}, Lcom/android/server/pm/PackageManagerService$Injector;->cleanAssetRedirections(Lcom/android/server/pm/PackageManagerService;Landroid/content/pm/PackageParser$Package;)V
+
     iget-object v9, p0, Lcom/android/server/pm/PackageManagerService;->mPackages:Ljava/util/HashMap;
 
     invoke-virtual {v9}, Ljava/util/HashMap;->keySet()Ljava/util/Set;

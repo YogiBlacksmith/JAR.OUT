@@ -1323,7 +1323,8 @@
     return v0
 .end method
 
-.locals 10
+.method private static preloadResources()V
+    .locals 10
     .annotation build Landroid/annotation/LewaHook;
         value = .enum Landroid/annotation/LewaHook$LewaHookType;->CHANGE_CODE:Landroid/annotation/LewaHook$LewaHookType;
     .end annotation
